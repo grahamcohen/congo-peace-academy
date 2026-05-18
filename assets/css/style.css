@@ -1859,3 +1859,13 @@ section { padding: var(--space-9) 0; }
 .hero-page .site-header:not(.is-scrolled) .brand-text-sub { color: rgba(250,246,238,0.7); }
 .hero-page .site-header:not(.is-scrolled) .brand-mark-img { background: rgba(255,255,255,0.95); }
 .hero-page .site-header:not(.is-scrolled) .nav-link:hover { color: #F4D58D; }
+
+/* On .hero-page, slide the hero up under the (transparent) sticky header */
+.hero-page .hero-cinematic {
+  margin-top: -82px;          /* pull behind header */
+  height: calc(100vh - 50px); /* full viewport minus the banner */
+  min-height: 660px;
+}
+.hero-page .hero-cinematic-inner {
+  padding-top: calc(82px + var(--space-9));  /* don't hide content under header */
+}
