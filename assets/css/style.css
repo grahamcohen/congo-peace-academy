@@ -1849,13 +1849,13 @@ section { padding: var(--space-9) 0; }
   .hero-scroll-hint { display: none; }
 }
 
-/* Tweak: header gets a clear bg on cinematic-hero pages until scrolled */
-body:has(.hero-cinematic) .site-header { background: transparent; box-shadow: none; border-bottom-color: transparent; }
-body:has(.hero-cinematic) .site-header.is-scrolled { background: var(--paper); box-shadow: 0 1px 0 var(--border); }
-body:has(.hero-cinematic) .site-header:not(.is-scrolled) .nav-link,
-body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-text,
-body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-text-sub {
+/* Header transparent over cinematic hero (only on .hero-page body) */
+.hero-page .site-header { background: transparent; box-shadow: none; border-bottom-color: transparent; }
+.hero-page .site-header.is-scrolled { background: var(--paper); box-shadow: 0 1px 0 var(--border); }
+.hero-page .site-header:not(.is-scrolled) .nav-link,
+.hero-page .site-header:not(.is-scrolled) .brand-text {
   color: var(--paper);
 }
-body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-text-sub { color: rgba(250,246,238,0.7); }
-body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-mark-img { background: rgba(255,255,255,0.95); }
+.hero-page .site-header:not(.is-scrolled) .brand-text-sub { color: rgba(250,246,238,0.7); }
+.hero-page .site-header:not(.is-scrolled) .brand-mark-img { background: rgba(255,255,255,0.95); }
+.hero-page .site-header:not(.is-scrolled) .nav-link:hover { color: #F4D58D; }
