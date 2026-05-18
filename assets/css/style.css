@@ -1869,3 +1869,113 @@ section { padding: var(--space-9) 0; }
 }
 /* Keep the original inner padding — flex-end already anchors content to the
    bottom; tall hero ensures the title clears the transparent header above. */
+
+/* =====================================================================
+   MOBILE FIXES — header, slide-in menu, hero, buttons
+   ===================================================================== */
+@media (max-width: 1024px) {
+  /* Hide the Donate button in the header on mobile — it's in the menu and
+     the announcement banner. Keeping it caused right-side overflow. */
+  .nav-actions { display: none; }
+
+  /* Tighter header padding + smaller brand on mobile */
+  .nav { padding: 0.7rem 0; gap: var(--space-3); }
+  .site-header .container { padding-left: var(--space-4); padding-right: var(--space-4); }
+  .brand-mark-img { width: 38px; height: 38px; }
+  .brand { font-size: 1rem; gap: var(--space-2); }
+  .brand-text-sub { font-size: 0.62rem; letter-spacing: 0.12em; }
+
+  /* Hamburger sits above the slide-in panel so user can close it */
+  .nav-toggle {
+    position: relative;
+    z-index: 1200;
+    margin-left: auto;
+  }
+
+  /* Slide-in panel: full width on small, capped on tablet, always on top */
+  .nav-list {
+    z-index: 1100;
+    width: 100vw;
+    max-width: 420px;
+    padding: calc(82px + var(--space-5)) var(--space-6) var(--space-7);
+    box-shadow: -18px 0 50px -20px rgba(15,22,20,0.35);
+  }
+
+  /* Backdrop behind the slide-in panel */
+  .nav-list[data-open="true"]::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(15,22,20,0.45);
+    z-index: -1;
+    /* This sits in the panel's stacking context. To dim the rest of the
+       page we use body[data-nav-open] instead — set below in JS. */
+  }
+  body[data-nav-open="true"]::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(15,22,20,0.45);
+    z-index: 1090;
+    pointer-events: none;
+  }
+
+  /* Donate CTA inside the slide-in menu */
+  .nav-list .nav-donate {
+    list-style: none;
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+  }
+  .nav-list .nav-donate .btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* On the cinematic-hero page, when the nav is open, give it a paper
+     background so the white-on-white text issue is fixed */
+  .hero-page .site-header .nav-list { background: var(--paper); }
+  .hero-page .nav-list .nav-link { color: var(--ink); }
+  .hero-page .nav-list .subnav-link { color: var(--slate-700); }
+}
+
+/* Cinematic hero — mobile spacing tightening so 26,000+ isn't cropped */
+@media (max-width: 720px) {
+  .hero-page .hero-cinematic {
+    min-height: 620px;
+    height: calc(100vh - 50px);
+  }
+  .hero-cinematic-inner {
+    padding: var(--space-7) 0 var(--space-7);
+  }
+  .hero-cinematic-title {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+    line-height: 1.06;
+  }
+  .hero-cinematic-lede {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  /* Stack hero buttons full width with breathing room */
+  .hero-cinematic .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 360px;
+  }
+  .hero-cinematic .hero-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+  .hero-cinematic-stat {
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  .hero-cinematic-num { font-size: 2rem; }
+  .hero-cinematic-label { font-size: 0.75rem; }
+}

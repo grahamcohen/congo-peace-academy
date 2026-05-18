@@ -17,6 +17,7 @@
       const isOpen = navList.getAttribute('data-open') === 'true';
       navList.setAttribute('data-open', String(!isOpen));
       toggle.setAttribute('aria-expanded', String(!isOpen));
+      document.body.setAttribute('data-nav-open', String(!isOpen));
       document.body.style.overflow = !isOpen ? 'hidden' : '';
     });
 
@@ -25,9 +26,20 @@
       if (e.key === 'Escape' && navList.getAttribute('data-open') === 'true') {
         navList.setAttribute('data-open', 'false');
         toggle.setAttribute('aria-expanded', 'false');
+        document.body.setAttribute('data-nav-open', 'false');
         document.body.style.overflow = '';
         toggle.focus();
       }
+    });
+
+    // tap outside to close (mobile)
+    document.addEventListener('click', function (e) {
+      if (navList.getAttribute('data-open') !== 'true') return;
+      if (navList.contains(e.target) || toggle.contains(e.target)) return;
+      navList.setAttribute('data-open', 'false');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.setAttribute('data-nav-open', 'false');
+      document.body.style.overflow = '';
     });
 
     // close when clicking a link (mobile)
@@ -36,6 +48,7 @@
         if (window.innerWidth < 1024) {
           navList.setAttribute('data-open', 'false');
           toggle.setAttribute('aria-expanded', 'false');
+          document.body.setAttribute('data-nav-open', 'false');
           document.body.style.overflow = '';
         }
       });
