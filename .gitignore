@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node (not used, but in case anyone adds tooling)
+node_modules/
+npm-debug.log*
+.env
+.env.local
+
+# Build artefacts
+dist/
+build/
+.cache/
+
+# Local-only image downloads (use download_images.sh to generate)
+assets/images/downloaded/
