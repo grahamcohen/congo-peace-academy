@@ -1862,10 +1862,10 @@ section { padding: var(--space-9) 0; }
 
 /* On .hero-page, slide the hero up under the (transparent) sticky header */
 .hero-page .hero-cinematic {
-  margin-top: -82px;          /* pull behind header */
-  height: calc(100vh - 50px); /* full viewport minus the banner */
-  min-height: 660px;
+  margin-top: -82px;
+  height: calc(100vh - 50px);
+  min-height: 760px;
+  max-height: none;          /* override 880px cap so content has room */
 }
-.hero-page .hero-cinematic-inner {
-  padding-top: calc(82px + var(--space-9));  /* don't hide content under header */
-}
+/* Keep the original inner padding — flex-end already anchors content to the
+   bottom; tall hero ensures the title clears the transparent header above. */
