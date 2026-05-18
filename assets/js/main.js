@@ -69,20 +69,25 @@
   }
 
   // ---------------------------------------------------------------------
-  // Header shadow on scroll
+  // Header: shadow + is-scrolled class as you scroll past the hero
   // ---------------------------------------------------------------------
   const header = document.querySelector('.site-header');
   if (header) {
-    let lastY = 0;
     const onScroll = function () {
       const y = window.scrollY;
-      if (y > 8 && lastY <= 8) {
-        header.style.boxShadow = '0 2px 12px rgba(15, 22, 20, 0.05)';
-      } else if (y <= 8 && lastY > 8) {
-        header.style.boxShadow = '';
-      }
-      lastY = y;
+      header.classList.toggle('is-scrolled', y > 80);
+      header.style.boxShadow = y > 8 ? '0 2px 12px rgba(15, 22, 20, 0.05)' : '';
     };
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // ---------------------------------------------------------------------
+  // Hero background video: fade in once it has started playing
+  // ---------------------------------------------------------------------
+  const heroVideo = document.querySelector('.hero-bg-video');
+  if (heroVideo) {
+    // YouTube iframe takes a beat to load — fade in after a delay
+    setTimeout(function () { heroVideo.classList.add('loaded'); }, 1500);
   }
 })();

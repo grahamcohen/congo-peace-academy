@@ -1623,3 +1623,239 @@ section { padding: var(--space-9) 0; }
   line-height: 1.7;
   color: var(--slate-700);
 }
+
+/* =====================================================================
+   ADDITIONS — logo image, cinematic hero, scrolling photo strip
+   ===================================================================== */
+
+/* Logo image replacing the text monogram */
+.brand-mark-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--paper);
+  padding: 2px;
+  display: block;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.site-footer .brand-mark-img {
+  background: rgba(255,255,255,0.95);
+}
+
+/* Light eyebrow + button for use on dark hero */
+.eyebrow-light {
+  color: rgba(255, 230, 180, 0.92);
+}
+.btn-light {
+  background: var(--paper);
+  color: var(--green-deep);
+  border: 1px solid var(--paper);
+}
+.btn-light:hover {
+  background: var(--cream);
+  color: var(--green-deep);
+}
+
+/* =================== CINEMATIC HERO ===================
+   Full-bleed hero with looping YouTube video background, image fallback,
+   dark tint, and editorial typography overlaid. */
+.hero-cinematic {
+  position: relative;
+  height: calc(100vh - 130px);
+  min-height: 620px;
+  max-height: 880px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  color: var(--paper);
+  isolation: isolate;
+  margin-top: -1px; /* tuck under sticky header */
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.95) brightness(0.78);
+  z-index: 1;
+}
+.hero-bg-video {
+  position: absolute;
+  /* Scale up so the YouTube chrome stays off-screen and video covers viewport */
+  top: 50%;
+  left: 50%;
+  width: 177.78vh;  /* 16:9 aspect on tall screens */
+  min-width: 100vw;
+  height: 56.25vw;  /* 16:9 aspect on wide screens */
+  min-height: 100%;
+  transform: translate(-50%, -50%) scale(1.4);
+  border: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 1.4s ease 0.4s;
+}
+.hero-bg-video.loaded { opacity: 1; }
+.hero-bg-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(15, 59, 38, 0.55) 0%, rgba(15, 59, 38, 0.35) 35%, rgba(14, 22, 20, 0.72) 100%);
+  z-index: 3;
+}
+.hero-cinematic-inner {
+  position: relative;
+  z-index: 4;
+  padding: var(--space-9) 0 var(--space-10);
+  max-width: 920px;
+}
+.hero-cinematic-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 6.2vw, 5.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  margin: var(--space-4) 0 var(--space-5) 0;
+  color: var(--paper);
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+}
+.hero-cinematic-title em {
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
+  color: #F4D58D; /* warm amber for emphasis on dark */
+}
+.hero-cinematic-lede {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  max-width: 640px;
+  color: rgba(250, 246, 238, 0.92);
+  margin: 0 0 var(--space-6) 0;
+}
+.hero-cinematic-stat {
+  margin-top: var(--space-7);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  border-top: 1px solid rgba(250, 246, 238, 0.25);
+  padding-top: var(--space-5);
+  max-width: 460px;
+}
+.hero-cinematic-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  color: #F4D58D;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.hero-cinematic-label {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(250, 246, 238, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.hero-scroll-hint {
+  position: absolute;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 1px;
+  height: 60px;
+  background: rgba(250, 246, 238, 0.3);
+  overflow: hidden;
+}
+.hero-scroll-hint span {
+  display: block;
+  width: 100%;
+  height: 30%;
+  background: var(--paper);
+  animation: scrollHint 2.2s ease-in-out infinite;
+}
+@keyframes scrollHint {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(330%); }
+}
+
+@media (max-width: 720px) {
+  .hero-cinematic { height: 78vh; min-height: 520px; }
+  .hero-bg-video { display: none; } /* mobile: image only, no video */
+  .hero-cinematic-stat { flex-direction: column; align-items: flex-start; gap: 4px; }
+}
+
+/* =================== SCROLLING PHOTO STRIP (Bridge2Rwanda style) =================== */
+.photo-strip {
+  background: var(--cream);
+  padding: var(--space-7) 0;
+  overflow: hidden;
+  position: relative;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.photo-strip::before,
+.photo-strip::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.photo-strip::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--cream) 0%, transparent 100%);
+}
+.photo-strip::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--cream) 0%, transparent 100%);
+}
+.strip-track {
+  display: flex;
+  gap: var(--space-4);
+  width: max-content;
+  animation: stripScroll 80s linear infinite;
+  will-change: transform;
+}
+.strip-track img {
+  height: 320px;
+  width: auto;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  box-shadow: 0 4px 22px -10px rgba(15, 59, 38, 0.4);
+}
+.strip-track:hover { animation-play-state: paused; }
+@keyframes stripScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* second half is duplicate -> infinite loop */
+}
+@media (max-width: 720px) {
+  .strip-track img { height: 220px; }
+  .strip-track { animation-duration: 60s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .strip-track { animation: none; flex-wrap: wrap; }
+  .hero-scroll-hint { display: none; }
+}
+
+/* Tweak: header gets a clear bg on cinematic-hero pages until scrolled */
+body:has(.hero-cinematic) .site-header { background: transparent; box-shadow: none; border-bottom-color: transparent; }
+body:has(.hero-cinematic) .site-header.is-scrolled { background: var(--paper); box-shadow: 0 1px 0 var(--border); }
+body:has(.hero-cinematic) .site-header:not(.is-scrolled) .nav-link,
+body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-text,
+body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-text-sub {
+  color: var(--paper);
+}
+body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-text-sub { color: rgba(250,246,238,0.7); }
+body:has(.hero-cinematic) .site-header:not(.is-scrolled) .brand-mark-img { background: rgba(255,255,255,0.95); }
