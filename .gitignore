@@ -19,5 +19,3 @@ dist/
 build/
 .cache/
 
-# Local-only image downloads (use download_images.sh to generate)
-assets/images/downloaded/

@@ -103,4 +103,28 @@
     // YouTube iframe takes a beat to load — fade in after a delay
     setTimeout(function () { heroVideo.classList.add('loaded'); }, 1500);
   }
+
+  // ---------------------------------------------------------------------
+  // Image fallback — if any <img> 404s, swap to a known-good image so the
+  // page never shows broken icons. Cycles through a small pool of fallbacks.
+  // ---------------------------------------------------------------------
+  const fallbackPool = [
+    'assets/images/header_background_image.jpg',
+    'assets/images/education_image.jpg',
+    'assets/images/peacebuilding_image.jpg',
+    'assets/images/foundation-for-farming_image.jpg',
+    'assets/images/relief-and-assistance_image.jpg',
+    'assets/images/most-recent-events_image.jpg',
+  ];
+  let fbIdx = 0;
+  // Compute prefix to /assets based on current page depth
+  const depth = (location.pathname.replace(/\/$/, '').split('/').length - 2);
+  const prefix = depth > 0 ? '../'.repeat(depth - 1) : '';
+  document.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('error', function handleErr() {
+      img.removeEventListener('error', handleErr);
+      const next = fallbackPool[fbIdx++ % fallbackPool.length];
+      img.src = prefix + next;
+    });
+  });
 })();

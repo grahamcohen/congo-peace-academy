@@ -2087,3 +2087,51 @@ section { padding: var(--space-9) 0; }
   .hero-cinematic-num { font-size: 2rem !important; }
   .hero-cinematic-label { font-size: 0.72rem !important; }
 }
+
+/* =====================================================================
+   DESKTOP: hide the in-menu .nav-donate (it's only for mobile);
+   the .nav-actions Donate at the right end handles desktop.
+   ===================================================================== */
+@media (min-width: 1025px) {
+  .nav-donate { display: none !important; }
+}
+
+/* =====================================================================
+   HERO — darker overlay so text always pops; safer minimum-height behavior
+   at every zoom level (was overlapping the banner at some zoom percentages)
+   ===================================================================== */
+.hero-bg-tint {
+  background:
+    linear-gradient(180deg,
+      rgba(15, 59, 38, 0.65) 0%,
+      rgba(14, 22, 20, 0.45) 35%,
+      rgba(14, 22, 20, 0.80) 100%) !important;
+}
+.hero-cinematic-title,
+.hero-cinematic-lede {
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Don't shrink below content height — prevents banner/title overlap at zoom */
+.hero-page .hero-cinematic {
+  min-height: max(720px, 100vh - 50px);
+}
+
+/* Mobile: side padding so words never touch the screen edges */
+@media (max-width: 720px) {
+  .hero-cinematic-inner {
+    padding-left: var(--space-5) !important;
+    padding-right: var(--space-5) !important;
+  }
+  .hero-cinematic-stat,
+  .hero-cinematic-title,
+  .hero-cinematic-lede,
+  .hero-actions,
+  .eyebrow-light {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .hero-page .hero-cinematic {
+    min-height: 100dvh;
+  }
+}
