@@ -1790,7 +1790,13 @@ section { padding: var(--space-9) 0; }
 
 @media (max-width: 720px) {
   .hero-cinematic { height: 78vh; min-height: 520px; }
-  .hero-bg-video { display: none; } /* mobile: image only, no video */
+  /* Hero video plays on mobile too — scaled for portrait */
+  .hero-bg-video {
+    width: 56.25vh;
+    min-width: 100vw;
+    height: 177.78vw;
+    min-height: 100vh;
+  }
   .hero-cinematic-stat { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
 
@@ -1978,4 +1984,73 @@ section { padding: var(--space-9) 0; }
   }
   .hero-cinematic-num { font-size: 2rem; }
   .hero-cinematic-label { font-size: 0.75rem; }
+}
+
+
+/* =====================================================================
+   MOBILE MENU — clean rebuild
+   ===================================================================== */
+@media (max-width: 1024px) {
+  /* Full-screen panel, sliding in from the right */
+  .nav-list {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh;
+    min-height: 100dvh;
+    padding: var(--space-6) var(--space-6) var(--space-7) var(--space-6) !important;
+    background: var(--paper) !important;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+  }
+  /* Top row inside the panel: leave room for a close affordance — the
+     existing X icon on the hamburger button is the close */
+  .nav-list::before {
+    content: '';
+    display: block;
+    height: 64px;
+    flex-shrink: 0;
+  }
+  .nav-item {
+    padding: 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav-link {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.6rem !important;
+    line-height: 1.2;
+    color: var(--ink) !important;
+    padding: 1.05rem 0 !important;
+  }
+  .subnav {
+    padding: 0 0 var(--space-3) var(--space-3) !important;
+  }
+  .subnav-link {
+    font-size: 0.98rem !important;
+    color: var(--slate-700) !important;
+    padding: 0.45rem 0 !important;
+  }
+  .nav-donate {
+    margin-top: auto;          /* pin to bottom of the flex column */
+    padding-top: var(--space-5) !important;
+    border-bottom: none !important;
+  }
+  .nav-donate .btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.95rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Hamburger sits above panel so users can tap to close */
+  .nav-toggle {
+    position: relative;
+    z-index: 1200;
+    width: 44px;
+    height: 44px;
+  }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar { background: transparent; }
 }
