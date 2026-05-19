@@ -1876,181 +1876,207 @@ section { padding: var(--space-9) 0; }
 /* Keep the original inner padding — flex-end already anchors content to the
    bottom; tall hero ensures the title clears the transparent header above. */
 
+
+
 /* =====================================================================
-   MOBILE FIXES — header, slide-in menu, hero, buttons
+   MOBILE PASS — comprehensive cleanup
+   Hierarchy of overrides comes after every earlier rule on purpose so
+   we don't fight specificity. Mobile = <=1024px; phone = <=720px.
    ===================================================================== */
 @media (max-width: 1024px) {
-  /* Hide the Donate button in the header on mobile — it's in the menu and
-     the announcement banner. Keeping it caused right-side overflow. */
-  .nav-actions { display: none; }
+  /* Hide desktop Donate; the mobile menu has one at the bottom */
+  .nav-actions { display: none !important; }
 
-  /* Tighter header padding + smaller brand on mobile */
-  .nav { padding: 0.7rem 0; gap: var(--space-3); }
+  /* Tighter header so things never clip */
+  .nav { padding: 0.6rem 0; gap: var(--space-3); }
   .site-header .container { padding-left: var(--space-4); padding-right: var(--space-4); }
-  .brand-mark-img { width: 38px; height: 38px; }
-  .brand { font-size: 1rem; gap: var(--space-2); }
+  .brand-mark-img { width: 36px; height: 36px; }
+  .brand { font-size: 0.95rem; gap: 0.6rem; }
   .brand-text-sub { font-size: 0.62rem; letter-spacing: 0.12em; }
 
-  /* Hamburger sits above the slide-in panel so user can close it */
-  .nav-toggle {
-    position: relative;
-    z-index: 1200;
-    margin-left: auto;
-  }
-
-  /* Slide-in panel: full width on small, capped on tablet, always on top */
+  /* ----- FULL-SCREEN MOBILE MENU ----- */
   .nav-list {
-    z-index: 1100;
-    width: 100vw;
-    max-width: 420px;
-    padding: calc(82px + var(--space-5)) var(--space-6) var(--space-7);
-    box-shadow: -18px 0 50px -20px rgba(15,22,20,0.35);
-  }
-
-  /* Backdrop behind the slide-in panel */
-  .nav-list[data-open="true"]::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(15,22,20,0.45);
-    z-index: -1;
-    /* This sits in the panel's stacking context. To dim the rest of the
-       page we use body[data-nav-open] instead — set below in JS. */
-  }
-  body[data-nav-open="true"]::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(15,22,20,0.45);
-    z-index: 1090;
-    pointer-events: none;
-  }
-
-  /* Donate CTA inside the slide-in menu */
-  .nav-list .nav-donate {
-    list-style: none;
-    margin-top: var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--border);
-  }
-  .nav-list .nav-donate .btn {
-    display: block;
-    text-align: center;
-    width: 100%;
-  }
-
-  /* On the cinematic-hero page, when the nav is open, give it a paper
-     background so the white-on-white text issue is fixed */
-  .hero-page .site-header .nav-list { background: var(--paper); }
-  .hero-page .nav-list .nav-link { color: var(--ink); }
-  .hero-page .nav-list .subnav-link { color: var(--slate-700); }
-}
-
-/* Cinematic hero — mobile spacing tightening so 26,000+ isn't cropped */
-@media (max-width: 720px) {
-  .hero-page .hero-cinematic {
-    min-height: 620px;
-    height: calc(100vh - 50px);
-  }
-  .hero-cinematic-inner {
-    padding: var(--space-7) 0 var(--space-7);
-  }
-  .hero-cinematic-title {
-    font-size: clamp(2rem, 8vw, 2.6rem);
-    line-height: 1.06;
-  }
-  .hero-cinematic-lede {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  /* Stack hero buttons full width with breathing room */
-  .hero-cinematic .hero-actions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    width: 100%;
-    max-width: 360px;
-  }
-  .hero-cinematic .hero-actions .btn {
-    width: 100%;
-    text-align: center;
-  }
-  .hero-cinematic-stat {
-    margin-top: var(--space-5);
-    padding-top: var(--space-4);
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
-  .hero-cinematic-num { font-size: 2rem; }
-  .hero-cinematic-label { font-size: 0.75rem; }
-}
-
-
-/* =====================================================================
-   MOBILE MENU — clean rebuild
-   ===================================================================== */
-@media (max-width: 1024px) {
-  /* Full-screen panel, sliding in from the right */
-  .nav-list {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    height: 100vh;
-    min-height: 100dvh;
-    padding: var(--space-6) var(--space-6) var(--space-7) var(--space-6) !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: var(--paper) !important;
-    z-index: 1100;
+    z-index: 9999 !important;       /* above announcement banner */
     display: flex;
     flex-direction: column;
-    gap: 0;
     overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 280ms var(--ease);
+    box-shadow: none;
+    border-left: none;
   }
-  /* Top row inside the panel: leave room for a close affordance — the
-     existing X icon on the hamburger button is the close */
+  .nav-list[data-open="true"] { transform: translateX(0) !important; }
+
+  /* Sticky top bar inside the panel — leaves room for the X (hamburger) button
+     that sits OVER the panel at the top right of the viewport */
   .nav-list::before {
     content: '';
     display: block;
-    height: 64px;
     flex-shrink: 0;
-  }
-  .nav-item {
-    padding: 0;
+    height: 64px;
+    background: var(--paper);
     border-bottom: 1px solid var(--border-soft);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  /* The hamburger / X — always on top of everything */
+  .nav-toggle {
+    position: relative;
+    z-index: 10000 !important;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+  }
+  /* When the panel is open, make the hamburger X explicitly visible on white */
+  .nav-toggle[aria-expanded="true"] {
+    background: transparent;
+  }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar::before,
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar::after {
+    background: var(--ink);
+  }
+
+  /* Nav items: editorial scale, with full-width divider lines */
+  .nav-item {
+    width: 100%;
+    border-bottom: 1px solid var(--border-soft);
+    padding: 0 var(--space-6);
+    background: var(--paper);
   }
   .nav-link {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 1.6rem !important;
+    font-family: var(--font-display) !important;
+    font-weight: 400 !important;
+    font-size: 1.55rem !important;
     line-height: 1.2;
     color: var(--ink) !important;
     padding: 1.05rem 0 !important;
+    width: 100%;
+    display: block;
   }
   .subnav {
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
     padding: 0 0 var(--space-3) var(--space-3) !important;
+    border: none !important;
   }
   .subnav-link {
-    font-size: 0.98rem !important;
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
     color: var(--slate-700) !important;
     padding: 0.45rem 0 !important;
   }
+  .nav-item.has-sub > .nav-link::after { display: none !important; }
+
+  /* Donate pinned at bottom */
   .nav-donate {
-    margin-top: auto;          /* pin to bottom of the flex column */
-    padding-top: var(--space-5) !important;
+    margin-top: auto !important;
+    padding: var(--space-5) var(--space-6) var(--space-6) !important;
+    border-top: 1px solid var(--border-soft) !important;
     border-bottom: none !important;
+    background: var(--paper);
   }
   .nav-donate .btn {
+    display: block;
     width: 100%;
     text-align: center;
-    padding: 0.95rem 1.5rem;
+    padding: 1rem 1.5rem;
     font-size: 1rem;
   }
 
-  /* Hamburger sits above panel so users can tap to close */
-  .nav-toggle {
-    position: relative;
-    z-index: 1200;
-    width: 44px;
-    height: 44px;
+  /* Kill any earlier ::after backdrop — the panel is its own backdrop */
+  body[data-nav-open="true"]::after { display: none !important; }
+}
+
+/* =====================================================================
+   PHONE (<=720px) — banner spacing + hero polish
+   ===================================================================== */
+@media (max-width: 720px) {
+  /* Announcement banner: compact, two lines max, no awkward wrapping */
+  .banner { padding: 0.5rem 0; }
+  .banner-content {
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem !important;
+    justify-content: center;
+    text-align: center;
   }
-  .nav-toggle[aria-expanded="true"] .nav-toggle-bar { background: transparent; }
+  .banner-content > span,
+  .banner-content > a {
+    font-size: 0.8rem !important;
+    line-height: 1.35;
+  }
+
+  /* Hero: lighter tint, fully covering video, comfortable content spacing */
+  .hero-page .hero-cinematic {
+    margin-top: -64px;
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+  }
+  .hero-bg-tint {
+    background: linear-gradient(180deg,
+      rgba(15, 59, 38, 0.55) 0%,
+      rgba(15, 59, 38, 0.30) 35%,
+      rgba(14, 22, 20, 0.65) 100%) !important;
+  }
+  /* Video: 16:9 sized to cover portrait viewport with no letterboxing */
+  .hero-bg-video {
+    top: 50% !important;
+    left: 50% !important;
+    width: 177.78vh !important;
+    min-width: 100vw !important;
+    height: 100vh !important;
+    min-height: 56.25vw !important;
+    transform: translate(-50%, -50%) scale(1.15) !important;
+  }
+
+  .hero-cinematic-inner {
+    padding: calc(64px + var(--space-6)) 0 var(--space-7) !important;
+    max-width: 100%;
+  }
+  .hero-cinematic-title {
+    font-size: clamp(1.9rem, 8vw, 2.5rem) !important;
+    line-height: 1.08 !important;
+  }
+  .hero-cinematic-lede {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    max-width: 100%;
+  }
+  .hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-3) !important;
+    width: 100%;
+    max-width: 360px;
+  }
+  .hero-actions .btn {
+    width: 100% !important;
+    text-align: center;
+    padding: 0.92rem 1.5rem !important;
+    font-size: 0.98rem !important;
+  }
+  .hero-cinematic-stat {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
+    padding-top: var(--space-4) !important;
+    margin-top: var(--space-5) !important;
+  }
+  .hero-cinematic-num { font-size: 2rem !important; }
+  .hero-cinematic-label { font-size: 0.72rem !important; }
 }
