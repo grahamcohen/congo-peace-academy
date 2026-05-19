@@ -1884,6 +1884,13 @@ section { padding: var(--space-9) 0; }
    we don't fight specificity. Mobile = <=1024px; phone = <=720px.
    ===================================================================== */
 @media (max-width: 1024px) {
+  /* CRITICAL: kill backdrop-filter on the header on mobile because it creates
+     a containing block that traps position:fixed descendants — that was why
+     the menu panel was stuck inside the header band. */
+  .site-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
   /* Hide desktop Donate; the mobile menu has one at the bottom */
   .nav-actions { display: none !important; }
 
