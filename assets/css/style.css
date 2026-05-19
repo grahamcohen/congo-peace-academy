@@ -2135,3 +2135,30 @@ section { padding: var(--space-9) 0; }
     min-height: 100dvh;
   }
 }
+
+/* =====================================================================
+   HERO ROCK-SOLID LAYOUT — top-anchored content, no possible header overlap
+   ===================================================================== */
+.hero-page .hero-cinematic {
+  align-items: flex-start !important;
+  padding-top: 130px !important;
+  padding-bottom: var(--space-7) !important;
+  min-height: max(720px, 100vh - 50px) !important;
+}
+.hero-page .hero-cinematic-inner {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 720px) {
+  .hero-page .hero-cinematic {
+    padding-top: 90px !important;
+    padding-bottom: var(--space-6) !important;
+    align-items: flex-start !important;
+  }
+  /* Stronger side padding on the hero content on phone */
+  .hero-page .hero-cinematic .container.hero-cinematic-inner {
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+}
